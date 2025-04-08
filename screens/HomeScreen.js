@@ -8,11 +8,11 @@ import {
   Image,
   Pressable,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  Platform
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
-import AppLoading from 'expo-app-loading';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -25,16 +25,21 @@ export default function HomeScreen() {
 
   // Wait until fonts are loaded before rendering UI
   if (!fontsLoaded) {
-    return null;
+    return <Text>Loading...</Text>; // Can be replaced with a spinner or splash screen
   }
 
   // Handle "Lettuce Begin" button press
   const handlePress = () => {
-    Alert.alert('Lettuce Begin 🌱', 'Welcome to GreenSync!', [
-      // Navigate to SignUp screen after alert
-      { text: 'OK', onPress: () => navigation.navigate('SignUp') }
-    ]);
-  };
+    if (Platform.OS === 'web') {
+      // Use browser alert for web
+      window.alert('Lettuce Begin 🌱\nWelcome to GreenSync!');
+    } else {
+      // Use React Native Alert for mobile
+      Alert.alert('Lettuce Begin 🌱', 'Welcome to GreenSync!', [
+        { text: 'OK', onPress: () => navigation.navigate('SignUp') }
+      ]);
+    }
+  };  
 
   return (
     <SafeAreaView style={styles.container}>
