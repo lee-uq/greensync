@@ -16,15 +16,26 @@ import TopNavbar from '../components/TopNavbar';
 import { Ionicons } from '@expo/vector-icons';
 
 // lettuce data
-const lettuces = [
-  { id: '1', name: 'Romaine', image: require('../assets/lettuce_romaine.png') },
-  { id: '2', name: 'Butterhead', image: require('../assets/lettuce_butterhead.png') },
-  { id: '3', name: 'Oak Leaf', image: require('../assets/lettuce_oakleaf.png') },
-  { id: '4', name: 'Cos', image: require('../assets/lettuce_cos.png') },
-];
+const originalLettuces = [
+   { id: '1', name: 'Romaine', image: require('../assets/lettuce_romaine.png'), popular: true },
+   { id: '2', name: 'Butterhead', image: require('../assets/lettuce_butterhead.png'), popular: false },
+   { id: '3', name: 'Oak Leaf', image: require('../assets/lettuce_oakleaf.png'), popular: true },
+   { id: '4', name: 'Cos', image: require('../assets/lettuce_cos.png'), popular: false },
+ ];
 
+// Search bar
 export default function SelectionScreen() {
    const [searchQuery, setSearchQuery] = useState('');
+   const [filter, setFilter] = useState('all'); // 'all' | 'az' | 'popular'
+
+   // Apply filter & search
+   const filteredLettuces = originalLettuces
+   .filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+   .sort((a, b) => {
+     if (filter === 'az') return a.name.localeCompare(b.name);
+     if (filter === 'popular') return b.popular - a.popular;
+     return 0;
+   });
 
    const renderItem = ({ item }) => (
       <TouchableOpacity style={styles.card} onPress={() => console.log(`${item.name} pressed`)}>
@@ -39,34 +50,42 @@ export default function SelectionScreen() {
         <TopNavbar />
         <Text style={styles.header}>Let’s Find{"\n"}Your Lettuce!</Text>
   
-        {/* Search + Filter Row */}
-        <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
+         {/* Search + Filter Row */}
+         <View style={styles.searchContainer}>
+         <View style={styles.searchBar}>
             <Ionicons name="search" size={20} color="#555" style={{ marginRight: 8 }} />
             <TextInput
-              style={styles.searchInput}
-              placeholder="Search plants..."
-              placeholderTextColor="#555"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
+               style={styles.searchInput}
+               placeholder="Search plants..."
+               placeholderTextColor="#555"
+               value={searchQuery}
+               onChangeText={setSearchQuery}
             />
-          </View>
-          <Pressable style={styles.filterButton} onPress={() => console.log('Open filters')}>
-            <Ionicons name="filter-outline" size={24} color="#fff" />
-          </Pressable>
-        </View>
+         </View>
+         <Pressable style={styles.filterButton} onPress={() => {
+            const next = filter === 'all' ? 'az' : filter === 'az' ? 'popular' : 'all';
+            setFilter(next);
+         }}>
+            <Ionicons name="funnel-outline" size={20} color="#fff" />
+         </Pressable>
+         </View>
   
-        <FlatList
-          data={lettuces}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-          columnWrapperStyle={{ justifyContent: 'space-between' }}
-          contentContainerStyle={styles.grid}
-        />
+         {/* Active Filter Label */}
+         <Text style={styles.filterLabel}>
+            {filter === 'all' ? 'Showing All' : filter === 'az' ? 'Sorted A-Z' : 'Most Popular First'}
+         </Text>
+
+         <FlatList
+            data={filteredLettuces}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={{ justifyContent: 'space-between' }}
+            contentContainerStyle={styles.grid}
+         />
       </SafeAreaView>
-    );
-  }
+  );
+}
 
 // Styles
 const styles = StyleSheet.create({
@@ -95,6 +114,7 @@ const styles = StyleSheet.create({
    paddingHorizontal: 12,
    height: 48,
    marginRight: 12,
+   marginLeft: 20,
  },
  searchInput: {
    flex: 1,
@@ -105,6 +125,13 @@ const styles = StyleSheet.create({
    backgroundColor: '#108b49',
    padding: 12,
    borderRadius: 12,
+   marginRight: 12,
+ },
+ filterLabel: {
+   marginBottom: 8,
+   fontSize: 14,
+   marginLeft: 8,
+   color: '#555',
  },
   grid: {
     paddingBottom: 100,
