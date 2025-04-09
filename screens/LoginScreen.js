@@ -62,7 +62,7 @@ export default function LoginScreen() {
 
     // Mock login success
     Alert.alert('Logged In ✅', 'Welcome back!', [
-      { text: 'OK', onPress: () => navigation.navigate('Home') },
+      { text: 'OK', onPress: () => navigation.navigate('Selection') },
     ]);
   };
 

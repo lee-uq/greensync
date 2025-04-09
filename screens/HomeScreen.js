@@ -46,7 +46,7 @@ export default function HomeScreen() {
       <View style={styles.inner}>
         {/* App logo */}
         <Image
-          source={require('../assets/lettuce2.png')}
+          source={require('../assets/lettuce_logo_white_background.png')}
           style={styles.logo}
           resizeMode="contain"
         />
