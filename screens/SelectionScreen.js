@@ -140,11 +140,13 @@ const styles = StyleSheet.create({
   filterLabel: {
     marginBottom: 8,
     fontSize: 14,
-    marginLeft: 8,
+    marginLeft: 20,
     color: '#555',
   },
   grid: {
     paddingBottom: 100,
+    marginLeft: 10,
+    marginRight: 10,
   },
   card: {
     backgroundColor: '#f7f7f7',

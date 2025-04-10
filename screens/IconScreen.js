@@ -1,4 +1,4 @@
-// screens/HomeScreen.js
+// screens/IconScreen.js
 
 import React from 'react';
 import {
@@ -9,12 +9,12 @@ import {
   Pressable,
   Alert,
   SafeAreaView,
-  Platform
+  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 
-export default function HomeScreen() {
+export default function IconScreen() {
   const navigation = useNavigation();
 
   // Load custom fonts
@@ -23,23 +23,21 @@ export default function HomeScreen() {
     Inter_700Bold,
   });
 
-  // Wait until fonts are loaded before rendering UI
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Can be replaced with a spinner or splash screen
+    return <Text>Loading...</Text>; // Replace with a spinner if you prefer
   }
 
-  // Handle "Lettuce Begin" button press
+  // Handle "Lettuce Begin" button
   const handlePress = () => {
     if (Platform.OS === 'web') {
-      // Use browser alert for web
       window.alert('Lettuce Begin 🌱\nWelcome to GreenSync!');
+      navigation.navigate('Login');
     } else {
-      // Use React Native Alert for mobile
       Alert.alert('Lettuce Begin 🌱', 'Welcome to GreenSync!', [
-        { text: 'OK', onPress: () => navigation.navigate('SignUp') }
+        { text: 'OK', onPress: () => navigation.navigate('Login') },
       ]);
     }
-  };  
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,15 +49,15 @@ export default function HomeScreen() {
           resizeMode="contain"
         />
 
-        {/* App title and subtitle */}
+        {/* App name and slogan */}
         <Text style={styles.title}>GreenSync</Text>
         <Text style={styles.subtitle}>AI-Optimised Smart Hydroponic System</Text>
 
-        {/* Lettuce Begin button */}
+        {/* Start button */}
         <Pressable
           style={({ pressed }) => [
             styles.button,
-            pressed && styles.buttonPressed
+            pressed && styles.buttonPressed,
           ]}
           onPress={handlePress}
         >
@@ -70,7 +68,7 @@ export default function HomeScreen() {
   );
 }
 
-// Style definitions
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

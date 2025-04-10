@@ -70,7 +70,7 @@ export default function SignUpScreen() {
 
     // Show mock success alert and navigate to Login
     Alert.alert('Signed Up 🎉', 'You have successfully signed up!', [
-      { text: 'OK', onPress: () => navigation.navigate('Selection') },
+      { text: 'OK', onPress: () => navigation.navigate('Dashboard') },
     ]);    
   };
 
