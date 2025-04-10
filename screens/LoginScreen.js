@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Custom checkbox that works with Expo
+// Custom checkbox
 const CustomCheckBox = ({ value, onValueChange }) => (
   <Pressable
     onPress={() => onValueChange(!value)}
@@ -44,31 +44,31 @@ export default function LoginScreen() {
   const [remember, setRemember] = useState(false);
   const navigation = useNavigation();
 
-  // Handle login button press (mock flow with validation)
+  // login button (mock flow with validation)
   const handleLogin = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Validate fields are not empty
+    // Check if fields are empty
     if (!email || !password) {
       Alert.alert('Missing Info', 'Please enter both email and password.');
       return;
     }
 
-    // Validate email format
+    // Check email format
     if (!emailRegex.test(email)) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
 
     // Mock login success
-    Alert.alert('Logged In ✅', 'Welcome back!', [
+    Alert.alert('Logged In', 'Welcome back!', [
       { text: 'OK', onPress: () => navigation.navigate('Dashboard') },
     ]);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Page heading */}
+      {/* Title and subtitle */}
       <Text style={styles.heading}>Welcome back!</Text>
       <Text style={styles.subheading}>Welcome back to GreenSync</Text>
 
@@ -82,7 +82,7 @@ export default function LoginScreen() {
         keyboardType="email-address"
       />
 
-      {/* Password label and "forgot" link */}
+      {/* Password label and "forgot" password */}
       <View style={styles.passwordRow}>
         <Text style={styles.label}>Password</Text>
         <Text style={styles.link}>forgot password</Text>
@@ -97,7 +97,7 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      {/* Remember me checkbox */}
+      {/* Remember checkbox */}
       <View style={styles.checkboxContainer}>
         <CustomCheckBox value={remember} onValueChange={setRemember} />
         <Text style={styles.terms}> Remember for 30 days</Text>
@@ -108,7 +108,7 @@ export default function LoginScreen() {
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
 
-      {/* Footer link to Sign Up */}
+      {/* Sign Up link */}
       <View style={styles.footer}>
         <Text>Don’t have an account? </Text>
         <Text style={styles.link} onPress={() => navigation.navigate('SignUp')}>

@@ -23,7 +23,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-// lettuce data
+// lettuce data (expand this later)
 const originalLettuces = [
   { id: '1', name: 'Romaine', image: require('../assets/lettuce_romaine.png'), popular: true },
   { id: '2', name: 'Butterhead', image: require('../assets/lettuce_butterhead.png'), popular: false },
@@ -35,7 +35,7 @@ export default function SelectionScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all'); // 'all' | 'az' | 'popular'
 
-  // Apply filter & search
+  // Filter and sort logic
   const filteredLettuces = originalLettuces
     .filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
     .sort((a, b) => {
@@ -44,12 +44,14 @@ export default function SelectionScreen() {
       return 0;
     });
 
+  // Cycle through filter options with animation
   const handleFilterPress = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const next = filter === 'all' ? 'az' : filter === 'az' ? 'popular' : 'all';
     setFilter(next);
   };
 
+  // Each lettuce card
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.card} onPress={() => console.log(`${item.name} pressed`)}>
       <Image source={item.image} style={styles.image} />
@@ -63,7 +65,7 @@ export default function SelectionScreen() {
       <TopNavbar />
       <Text style={styles.header}>Let’s Find{"\n"}Your Lettuce!</Text>
 
-      {/* Search + Filter Row */}
+      {/* Search and filter */}
       <View style={styles.searchContainer}>
         <View style={styles.searchBar}>
           <Ionicons name="search" size={20} color="#555" style={{ marginRight: 8 }} />
@@ -80,11 +82,12 @@ export default function SelectionScreen() {
         </Pressable>
       </View>
 
-      {/* Active Filter Label */}
+      {/* Current filter status */}
       <Text style={styles.filterLabel}>
         {filter === 'all' ? 'Showing All' : filter === 'az' ? 'Sorted A-Z' : 'Most Popular First'}
       </Text>
 
+      {/* Grid of lettuces */}
       <FlatList
         data={filteredLettuces}
         renderItem={renderItem}

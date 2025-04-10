@@ -23,17 +23,20 @@ export default function IconScreen() {
     Inter_700Bold,
   });
 
+  // Show loading text while fonts are loading
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Replace with a spinner if you prefer
+    return <Text>Loading...</Text>;
   }
 
-  // Handle "Lettuce Begin" button
+  // Button press: go to Login page
   const handlePress = () => {
     if (Platform.OS === 'web') {
-      window.alert('Lettuce Begin 🌱\nWelcome to GreenSync!');
+      // For web
+      window.alert('Lettuce Begin \nWelcome to GreenSync!');
       navigation.navigate('Login');
     } else {
-      Alert.alert('Lettuce Begin 🌱', 'Welcome to GreenSync!', [
+      // For iOS/Android
+      Alert.alert('Lettuce Begin', 'Welcome to GreenSync!', [
         { text: 'OK', onPress: () => navigation.navigate('Login') },
       ]);
     }
@@ -42,14 +45,14 @@ export default function IconScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.inner}>
-        {/* App logo */}
+        {/* Logo image */}
         <Image
           source={require('../assets/lettuce_logo_white_background.png')}
           style={styles.logo}
           resizeMode="contain"
         />
 
-        {/* App name and slogan */}
+        {/* App title + subtitle */}
         <Text style={styles.title}>GreenSync</Text>
         <Text style={styles.subtitle}>AI-Optimised Smart Hydroponic System</Text>
 

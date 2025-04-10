@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Custom checkbox component that works in Expo
+// Custom checkbox component
 const CustomCheckBox = ({ value, onValueChange }) => (
   <Pressable
     onPress={() => onValueChange(!value)}
@@ -39,14 +39,14 @@ const CustomCheckBox = ({ value, onValueChange }) => (
 );
 
 export default function SignUpScreen() {
-  // Form field state
+  // Form input
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [agree, setAgree] = useState(false);
   const navigation = useNavigation();
 
-  // Handle sign up validation and mock success
+  // Simple validation logic for demo
   const handleSignUp = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -56,7 +56,7 @@ export default function SignUpScreen() {
       return;
     }
 
-    // Validate email format
+    // Check email format
     if (!emailRegex.test(email)) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
@@ -68,8 +68,8 @@ export default function SignUpScreen() {
       return;
     }
 
-    // Show mock success alert and navigate to Login
-    Alert.alert('Signed Up 🎉', 'You have successfully signed up!', [
+    // Show mock success and navigate to Dashboard
+    Alert.alert('Signed Up', 'You have successfully signed up!', [
       { text: 'OK', onPress: () => navigation.navigate('Dashboard') },
     ]);    
   };
@@ -122,7 +122,7 @@ export default function SignUpScreen() {
         <Text style={styles.buttonText}>Sign up</Text>
       </Pressable>
 
-      {/* Link to Login page */}
+      {/* Switch to login page */}
       <View style={styles.footer}>
         <Text>Have an account? </Text>
         <Text style={styles.link} onPress={() => navigation.navigate('Login')}>
@@ -133,7 +133,7 @@ export default function SignUpScreen() {
   );
 }
 
-// StyleSheet for the screen
+// Style
 const styles = StyleSheet.create({
   container: {
     padding: 24,
